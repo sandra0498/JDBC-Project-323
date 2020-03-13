@@ -31,3 +31,46 @@ PublisherPhone int NOT NULL, -- This holds the phone number of the publisher
 PublisherEmail varchar(50) NOT NULL, --This holds the email address of the publisher 
 CONSTRAINT publishers_pk PRIMARY KEY(PublisherName)
 );
+
+
+//List all writing groups
+Select groupName, headWriter, yearFormed, subject 
+	From WritingGroups;
+
+//List all data for a group specified by the user
+Select groupName, headWriter, yearFormed, subject 
+	From WritingGroups
+	Where groupName = 'userInput';
+
+//List all publishers
+Select publisherName, publisherAddress, publisherPhone, publisherEmail
+	From Publishers;
+
+//List all data for a publisher specified by the user
+Select publisherName, publisherAddress, publisherPhone, publisherEmail
+	From Publishers
+	Where publisherName = 'userInput';
+
+//List all book titles
+Select groupName, bookTitle, publisherName, yearPublished, numberPages
+	From Books;
+
+//List all data for a book specified by the user
+Select groupName, bookTitle, publisherName, yearPublished, numberPages
+	From Books
+	Where bookTitle = 'userInput';
+
+//Insert new book
+Insert Into Books (groupName, bookTitle, publisherName, yearPublished, numberPages)
+	Values ('userInputs');
+
+//Insert new publisher and update all books published by one publisher to be published by new publisher. 
+Insert Into Publishers (publisherName, publisherAddress, publisherPhone, publisherEmail)
+	Values ('userInputs');
+Update Books
+	Set publisherName = 'newPublisherName'
+	Where publisherName = 'userInput';
+
+//Remove a book specified by the user
+Delete From Books
+	Where bookTitle = 'userInput';
