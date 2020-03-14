@@ -36,6 +36,9 @@ public class CECS323JavaTermProject {
             return input;
     }
     
+    public static void selectSQLStatement(String statment) {
+     
+    }
     public static void main(String[] args) {
         //Prompt the user for the database name, and the credentials.
         //If your database has no credentials, you can update this code to 
@@ -81,17 +84,48 @@ public class CECS323JavaTermProject {
                 System.out.printf(displayFormat, 
                         dispNull(group), dispNull(head), dispNull(year), dispNull(subject));
             }
+            
+            //Repeat for more SQL statements
+            System.out.println("Creating another statement...");
+            stmt = conn.createStatement();
+            sql = "SELECT groupName, headWriter, yearFormed, subject FROM WritingGroups\n"
+                    + "WHERE groupName = ?";
+            System.out.println(sql);
+            Scanner input = new Scanner(System.in);
+            String userInput = input.nextLine();
+            sql = sql.replaceFirst("?", userInput);
+            rs = stmt.executeQuery(sql);
+
+            System.out.printf(displayFormat, "groupname", "headwriter", "yearformed", "subject");
+            while (rs.next()) {
+                //Retrieve by column name
+                String group = rs.getString("groupname");
+                String head = rs.getString("headwriter");
+                String year = "" + rs.getInt("yearformed");
+                String subject = rs.getString("subject");
+
+                //Display values
+                System.out.printf(displayFormat, 
+                        dispNull(group), dispNull(head), dispNull(year), dispNull(subject));
+            }
             //STEP 6: Clean-up environment
             rs.close();
             stmt.close();
             conn.close();
-        } catch (SQLException se) {
+        } 
+        catch (SQLSyntaxErrorException sse) {
+            sse.getMessage();
+        }
+        catch (SQLException se) {
             //Handle errors for JDBC
             se.printStackTrace();
-        } catch (Exception e) {
+        } 
+       
+        catch (Exception e) {
             //Handle errors for Class.forName
             e.printStackTrace();
-        } finally {
+        } 
+        finally {
             //finally block used to close resources
             try {
                 if (stmt != null) {
@@ -110,4 +144,3 @@ public class CECS323JavaTermProject {
         System.out.println("Goodbye!");
     }//end main
 }//end FirstExample}
-
