@@ -48,12 +48,13 @@ public class CECS323JavaTermProject {
 //        System.out.print("Database password: ");
 //        PASS = in.nextLine();
 //        //Constructing the database URL connection string
-//        DB_URL = DB_URL + DBNAME + ";user="+ USER + ";password=" + PASS;
+        DB_URL = DB_URL + DBNAME;
         Connection conn = null; //initialize the connection
         Statement stmt = null;  //initialize the statement that we're using
         try {
+            String pathtoconnector= "com.mysql.cj.jdbc.Driver";
             //STEP 2: Register JDBC driver
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
+            Class.forName(pathtoconnector);
 
             //STEP 3: Open a connection
             System.out.println("Connecting to database...");
@@ -63,21 +64,22 @@ public class CECS323JavaTermProject {
             System.out.println("Creating statement...");
             stmt = conn.createStatement();
             String sql;
-            sql = "SELECT au_id, au_fname, au_lname, phone FROM Authors";
+            sql = "SELECT groupname, headWriter, yearFormed,subject FROM WritingGroup";
             ResultSet rs = stmt.executeQuery(sql);
 
             //STEP 5: Extract data from result set
-            System.out.printf(displayFormat, "ID", "First Name", "Last Name", "Phone #");
+            System.out.printf(displayFormat, "groupname", "headwriter", "yearformed", "subject");
             while (rs.next()) {
                 //Retrieve by column name
-                String id = rs.getString("au_id");
-                String phone = rs.getString("phone");
-                String first = rs.getString("au_fname");
-                String last = rs.getString("au_lname");
+                String group = rs.getString("groupname");
+                String head = rs.getString("headwriter");
+                String year = "" + rs.getInt("yearformed");
+                String subject = rs.getString("subject");
 
                 //Display values
+               // System.out.println("goes up to here!!!");
                 System.out.printf(displayFormat, 
-                        dispNull(id), dispNull(first), dispNull(last), dispNull(phone));
+                        dispNull(group), dispNull(head), dispNull(year), dispNull(subject));
             }
             //STEP 6: Clean-up environment
             rs.close();
