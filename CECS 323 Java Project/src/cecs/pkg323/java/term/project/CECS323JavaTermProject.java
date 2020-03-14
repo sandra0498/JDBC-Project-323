@@ -18,7 +18,7 @@ public class CECS323JavaTermProject {
     //The number indicates how wide to make the field.
     //The "s" denotes that it's a string.  All of our output in this test are 
     //strings, but that won't always be the case.
-    static final String displayFormat="%-5s%-15s%-15s%-15s\n";
+    static final String displayFormat="%-15s%-15s%-15s%-15s\n";
 // JDBC driver name and database URL
     static final String JDBC_DRIVER = "org.apache.derby.jdbc.ClientDriver";
     static String DB_URL = "jdbc:derby://localhost:1527/";
@@ -36,9 +36,6 @@ public class CECS323JavaTermProject {
             return input;
     }
     
-    public static void selectSQLStatement(String statment) {
-     
-    }
     public static void main(String[] args) {
         //Prompt the user for the database name, and the credentials.
         //If your database has no credentials, you can update this code to 
@@ -46,8 +43,8 @@ public class CECS323JavaTermProject {
         Scanner in = new Scanner(System.in);
         System.out.print("Name of the database (not the user account): ");
         DBNAME = in.nextLine();
-        System.out.print("Database user name: ");
-        USER = in.nextLine();
+       // System.out.print("Database user name: ");
+        //USER = in.nextLine();
 //        System.out.print("Database password: ");
 //        PASS = in.nextLine();
 //        //Constructing the database URL connection string
@@ -56,13 +53,15 @@ public class CECS323JavaTermProject {
         Statement stmt = null;  //initialize the statement that we're using
         try {
             String pathtoconnector= "com.mysql.cj.jdbc.Driver";
+            
             //STEP 2: Register JDBC driver
             Class.forName(pathtoconnector);
 
             //STEP 3: Open a connection
             System.out.println("Connecting to database...");
             conn = DriverManager.getConnection(DB_URL);
-
+            
+            insertingDataChoice(in);
             //STEP 4: Execute a query
             System.out.println("Creating statement...");
             stmt = conn.createStatement();
@@ -84,54 +83,31 @@ public class CECS323JavaTermProject {
                 System.out.printf(displayFormat, 
                         dispNull(group), dispNull(head), dispNull(year), dispNull(subject));
             }
-            
-            //Repeat for more SQL statements
-            System.out.println("Creating another statement...");
-            stmt = conn.createStatement();
-            sql = "SELECT groupName, headWriter, yearFormed, subject FROM WritingGroups\n"
-                    + "WHERE groupName = ?";
-            System.out.println(sql);
-            Scanner input = new Scanner(System.in);
-            String userInput = input.nextLine();
-            sql = sql.replaceFirst("?", userInput);
-            rs = stmt.executeQuery(sql);
-
-            System.out.printf(displayFormat, "groupname", "headwriter", "yearformed", "subject");
-            while (rs.next()) {
-                //Retrieve by column name
-                String group = rs.getString("groupname");
-                String head = rs.getString("headwriter");
-                String year = "" + rs.getInt("yearformed");
-                String subject = rs.getString("subject");
-
-                //Display values
-                System.out.printf(displayFormat, 
-                        dispNull(group), dispNull(head), dispNull(year), dispNull(subject));
-            }
             //STEP 6: Clean-up environment
             rs.close();
             stmt.close();
             conn.close();
-        } 
-        catch (SQLSyntaxErrorException sse) {
-            sse.getMessage();
+        } catch(SQLSyntaxErrorException see){
+           Exception sse = new SQLSyntaxErrorException("Wrong syntax");
+           sse.getMessage();
         }
         catch (SQLException se) {
             //Handle errors for JDBC
-            se.printStackTrace();
+            System.out.println("Could not retrieve database metadata " + se.getMessage());
         } 
-       
         catch (Exception e) {
             //Handle errors for Class.forName
             e.printStackTrace();
-        } 
-        finally {
+        } finally {
             //finally block used to close resources
+            // this block will be entered after all the inserts/deletes 
+            //when data is displayed 
             try {
                 if (stmt != null) {
                     stmt.close();
                 }
             } catch (SQLException se2) {
+                
             }// nothing we can do
             try {
                 if (conn != null) {
@@ -143,4 +119,19 @@ public class CECS323JavaTermProject {
         }//end try
         System.out.println("Goodbye!");
     }//end main
+    
+    public static void insertingDataChoice(Scanner in){
+        System.out.println("Where would you like to insert data?\n(1)Books\n(2)Publishers");
+        
+        int choice = in.nextInt();
+        String databaseChoice = "";
+        switch(choice){
+            case 1:
+                databaseChoice = "books";
+            
+            case 2:
+                databaseChoice = "publishers";
+        }
+        
+    }
 }//end FirstExample}
