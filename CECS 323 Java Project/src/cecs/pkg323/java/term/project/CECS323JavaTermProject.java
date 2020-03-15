@@ -92,7 +92,7 @@ public class CECS323JavaTermProject {
             //From WritingGroups
             //Where groupName = 'userInput';
             System.out.println("Creating another statement...");
-            String secondSQL = "SELECT groupName, headWriter, yearFormed, subject FROM WritingGroups\n"
+            String secondSQL = "SELECT groupName, headWriter, yearFormed, subject FROM WritingGroup\n"
                     + "WHERE groupName = ?";
             System.out.println(secondSQL);
             PreparedStatement pStmt = conn.prepareStatement(secondSQL);
@@ -219,19 +219,5 @@ public class CECS323JavaTermProject {
         }//end try
         System.out.println("Goodbye!");
     }//end main
-    
-    public static void insertingDataChoice(Scanner in){
-        System.out.println("Where would you like to insert data?\n(1)Books\n(2)Publishers");
-        
-        int choice = in.nextInt();
-        String databaseChoice = "";
-        switch(choice){
-            case 1:
-                databaseChoice = "books";
-            
-            case 2:
-                databaseChoice = "publishers";
-        }
-        
-    }
+
 }//end FirstExample}
