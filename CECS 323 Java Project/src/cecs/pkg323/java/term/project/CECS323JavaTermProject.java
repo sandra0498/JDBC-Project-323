@@ -65,9 +65,10 @@ public class CECS323JavaTermProject {
             //STEP 4: Execute a query
             System.out.println("Creating statement...");
             stmt = conn.createStatement();
-            String sql;
-            sql = "SELECT groupname, headWriter, yearFormed,subject FROM WritingGroup";
-            ResultSet rs = stmt.executeQuery(sql);
+            String firstSQL;
+            firstSQL = "SELECT groupname, headWriter, yearFormed,subject FROM WritingGroup";
+            System.out.println(firstSQL);
+            ResultSet rs = stmt.executeQuery(firstSQL);
 
             //STEP 5: Extract data from result set
             System.out.printf(displayFormat, "groupname", "headwriter", "yearformed", "subject");
@@ -82,6 +83,49 @@ public class CECS323JavaTermProject {
                // System.out.println("goes up to here!!!");
                 System.out.printf(displayFormat, 
                         dispNull(group), dispNull(head), dispNull(year), dispNull(subject));
+            }
+            
+            //Repeat for more SQL statements
+            System.out.println("Creating another statement...");
+            stmt = conn.createStatement();
+            String secondSQL = "SELECT groupName, headWriter, yearFormed, subject FROM WritingGroups\n"
+                    + "WHERE groupName = ?";
+            System.out.println(secondSQL);
+            Scanner input = new Scanner(System.in);
+            String userInput = input.nextLine();
+            secondSQL = secondSQL.replaceFirst("?", userInput);
+            rs = stmt.executeQuery(secondSQL);
+
+            System.out.printf(displayFormat, "groupname", "headwriter", "yearformed", "subject");
+            while (rs.next()) {
+                //Retrieve by column name
+                String group = rs.getString("groupname");
+                String head = rs.getString("headwriter");
+                String year = "" + rs.getInt("yearformed");
+                String subject = rs.getString("subject");
+
+                //Display values
+                System.out.printf(displayFormat, 
+                        dispNull(group), dispNull(head), dispNull(year), dispNull(subject));
+            }
+            
+            System.out.println("Creating another statement...");
+            stmt = conn.createStatement();
+            String thirdSQL = "SELECT publisherName, publisherAddress, publisherPhone, publisherEmail FROM Publishers;";
+            System.out.println(thirdSQL);
+            rs = stmt.executeQuery(thirdSQL);
+
+            System.out.printf(displayFormat, "publisherName", "publisherAddress", "publisherPhone", "publisherEmail");
+            while (rs.next()) {
+                //Retrieve by column name
+                String name = rs.getString("publisherName");
+                String address = rs.getString("publisherAddress");
+                String phone = "" + rs.getInt("publisherPhone");
+                String email = rs.getString("publisherEmail");
+
+                //Display values
+                System.out.printf(displayFormat, 
+                        dispNull(name), dispNull(address), dispNull(phone), dispNull(email));
             }
             //STEP 6: Clean-up environment
             rs.close();
