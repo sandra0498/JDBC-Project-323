@@ -61,8 +61,10 @@ public class CECS323JavaTermProject {
             System.out.println("Connecting to database...");
             conn = DriverManager.getConnection(DB_URL);
             
-            insertingDataChoice(in);
             //STEP 4: Execute a query
+            //List all writing groups
+            //Select groupName, headWriter, yearFormed, subject 
+            //From WritingGroups;
             System.out.println("Creating statement...");
             stmt = conn.createStatement();
             String firstSQL;
@@ -85,16 +87,19 @@ public class CECS323JavaTermProject {
                         dispNull(group), dispNull(head), dispNull(year), dispNull(subject));
             }
             
-            //Repeat for more SQL statements
+            //List all data for a group specified by the user
+            //Select groupName, headWriter, yearFormed, subject 
+            //From WritingGroups
+            //Where groupName = 'userInput';
             System.out.println("Creating another statement...");
-            stmt = conn.createStatement();
             String secondSQL = "SELECT groupName, headWriter, yearFormed, subject FROM WritingGroups\n"
                     + "WHERE groupName = ?";
             System.out.println(secondSQL);
+            PreparedStatement pStmt = conn.prepareStatement(secondSQL);
             Scanner input = new Scanner(System.in);
             String userInput = input.nextLine();
-            secondSQL = secondSQL.replaceFirst("?", userInput);
-            rs = stmt.executeQuery(secondSQL);
+            pStmt.setString(1, userInput);
+            rs = pStmt.executeQuery(secondSQL);
 
             System.out.printf(displayFormat, "groupname", "headwriter", "yearformed", "subject");
             while (rs.next()) {
@@ -109,6 +114,9 @@ public class CECS323JavaTermProject {
                         dispNull(group), dispNull(head), dispNull(year), dispNull(subject));
             }
             
+            ////List all publishers
+            //Select publisherName, publisherAddress, publisherPhone, publisherEmail
+            //From Publishers
             System.out.println("Creating another statement...");
             stmt = conn.createStatement();
             String thirdSQL = "SELECT publisherName, publisherAddress, publisherPhone, publisherEmail FROM Publishers;";
@@ -126,6 +134,54 @@ public class CECS323JavaTermProject {
                 //Display values
                 System.out.printf(displayFormat, 
                         dispNull(name), dispNull(address), dispNull(phone), dispNull(email));
+            }
+            
+            ////List all data for a publisher specified by the user
+            //Select publisherName, publisherAddress, publisherPhone, publisherEmail
+            //From Publishers
+            //Where publisherName = 'userInput';
+            System.out.println("Creating another statement...");
+            String fourthSQL = "SELECT publisherName, publisherAddress, publisherPhone, publisherEmail FROM Publishers\n"
+                    + "WHERE publisherName = ?";
+            System.out.println(fourthSQL);
+            pStmt = conn.prepareStatement(fourthSQL);
+            userInput = input.nextLine();
+            pStmt.setString(1, userInput);
+            rs = pStmt.executeQuery(fourthSQL);
+
+            System.out.printf(displayFormat, "groupname", "headwriter", "yearformed", "subject");
+            while (rs.next()) {
+                //Retrieve by column name
+                String group = rs.getString("groupname");
+                String head = rs.getString("headwriter");
+                String year = "" + rs.getInt("yearformed");
+                String subject = rs.getString("subject");
+
+                //Display values
+                System.out.printf(displayFormat, 
+                        dispNull(group), dispNull(head), dispNull(year), dispNull(subject));
+            }
+            ////List all book titles
+            //Select groupName, bookTitle, publisherName, yearPublished, numberPages
+            //From Books;
+             System.out.println("Creating another statement...");
+            stmt = conn.createStatement();
+            String fifthSQL = "SELECT groupName, bookTitle, publisherName, yearPublished, numberPages FROM Books;";
+            System.out.println(fifthSQL);
+            rs = stmt.executeQuery(fifthSQL);
+
+            System.out.printf(displayFormat, "groupName", "bookTitle", "publisherName", "yearPublished", "numberPages");
+            while (rs.next()) {
+                //Retrieve by column name
+                String gName = rs.getString("groupName");
+                String title = rs.getString("bookTitle");
+                String pName = rs.getString("publisherName"); 
+                String year = "" + rs.getInt("yearPublished");
+                String numPages = "" + rs.getInt("numberPages");
+
+                //Display values
+                System.out.printf(displayFormat, 
+                        dispNull(gName), dispNull(title), dispNull(pName), dispNull(year), dispNull(numPages));
             }
             //STEP 6: Clean-up environment
             rs.close();
