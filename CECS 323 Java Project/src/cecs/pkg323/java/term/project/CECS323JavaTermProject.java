@@ -97,21 +97,24 @@ public class CECS323JavaTermProject {
             System.out.println(secondSQL);
             PreparedStatement pStmt = conn.prepareStatement(secondSQL);
             Scanner input = new Scanner(System.in);
+            System.out.println("Please input the group name: ");
             String userInput = input.nextLine();
             pStmt.setString(1, userInput);
-            rs = pStmt.executeQuery(secondSQL);
-
-            System.out.printf(displayFormat, "groupname", "headwriter", "yearformed", "subject");
-            while (rs.next()) {
-                //Retrieve by column name
-                String group = rs.getString("groupname");
-                String head = rs.getString("headwriter");
-                String year = "" + rs.getInt("yearformed");
-                String subject = rs.getString("subject");
-
-                //Display values
-                System.out.printf(displayFormat, 
-                        dispNull(group), dispNull(head), dispNull(year), dispNull(subject));
+            rs = pStmt.executeQuery();
+            
+            // rs = the whole tuple 
+            
+            //iterates through the whole tuple to get each row 
+            while(rs.next()){
+            // each string represents a row 
+            String groupName = rs.getString("groupName");
+            String writer = rs.getString("headWriter");
+            String year = ""+ rs.getInt("yearFormed");
+            String subject = rs.getString("subject");
+            
+            //prints out each row 
+            System.out.printf(displayFormat, 
+                dispNull(groupName), dispNull(writer), dispNull(year), dispNull(subject));
             }
             
             ////List all publishers
