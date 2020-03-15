@@ -183,6 +183,49 @@ public class CECS323JavaTermProject {
                 System.out.printf(displayFormat, 
                         dispNull(gName), dispNull(title), dispNull(pName), dispNull(year), dispNull(numPages));
             }
+            
+            ////List all data for a book specified by the user
+            //Select groupName, bookTitle, publisherName, yearPublished, numberPages
+            //From Books
+            //Where bookTitle = 'userInput';
+            System.out.println("Creating another statement...");
+            String sixthSQL = "SELECT groupName, bookTitle, publisherName, yearPublished, numberPages FROM Books\n"
+                    + "WHERE bookTitle = ?";
+            System.out.println(sixthSQL);
+            pStmt = conn.prepareStatement(sixthSQL);
+            userInput = input.nextLine();
+            pStmt.setString(1, userInput);
+            rs = pStmt.executeQuery(sixthSQL);
+
+            System.out.printf(displayFormat, "groupname", "bookTitle", "publisherName", "yearPublished", "numberPages");
+            while (rs.next()) {
+                //Retrieve by column name
+                String gName = rs.getString("groupName");
+                String title = rs.getString("bookTitle");
+                String pName = rs.getString("publisherName"); 
+                String year = "" + rs.getInt("yearPublished");
+                String numPages = "" + rs.getInt("numberPages");
+
+                //Display values
+                System.out.printf(displayFormat, 
+                        dispNull(gName), dispNull(title), dispNull(pName), dispNull(year), dispNull(numPages));
+            }
+            ////Insert new book
+            //Insert Into Books (groupName, bookTitle, publisherName, yearPublished, numberPages)
+            //Values ('userInputs');
+            
+            ////Insert new publisher and update all books published by one publisher to be published by new publisher. 
+            //Insert Into Publishers (publisherName, publisherAddress, publisherPhone, publisherEmail)
+            //Values ('userInputs');
+
+            //Update Books
+            //Set publisherName = 'newPublisherName'
+            //Where publisherName = 'userInput';
+            
+            ////Remove a book specified by the user
+            //Delete From Books
+            //Where bookTitle = 'userInput';
+            
             //STEP 6: Clean-up environment
             rs.close();
             stmt.close();
