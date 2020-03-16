@@ -250,9 +250,7 @@ public class CECS323JavaTermProject {
                         break;
                     
                     case 3:
-                        ////Insert new book
-                        //Insert Into Books (groupName, bookTitle, publisherName, yearPublished, numberPages)
-                        //Values ('userInputs');
+
                     ////Insert new book
                     //Insert Into Books (groupName, bookTitle, publisherName, yearPublished, numberPages)
                     //Values ('userInputs');
@@ -282,6 +280,36 @@ public class CECS323JavaTermProject {
                     int resultNum = insertBook.executeUpdate();
                     
                      System.out.println("Number of rows affected ::" + resultNum);
+                    ////Insert new book
+                    //Insert Into Books (groupName, bookTitle, publisherName, yearPublished, numberPages)
+                    //Values ('userInputs');
+                    PreparedStatement insertBook = conn.prepareStatement("insert into books(groupName, "
+                            + "bookTitle, publisherName, yearPublished, numberPages) Values(?,?,?,?,?)");
+                    System.out.println("Name of group to insert?");
+                    String group = in.nextLine();
+                    
+                    System.out.println("Which book title would you want to insert?");
+                    String bookTitle = in.nextLine();
+                    
+                    System.out.println("Name of publisher ?");
+                    String pub = in.nextLine();
+                    
+                    System.out.println("Year published?");
+                    int year = in.nextInt();
+                    
+                    System.out.println("Number of pages?");
+                    int num = in.nextInt();
+                    
+                    insertBook.setString(1, group);
+                    insertBook.setString(2, bookTitle);
+                    insertBook.setString(3, pub);
+                    insertBook.setInt(4, year);
+                    insertBook.setInt(5, num);
+                    
+                    int resultNum = insertBook.executeUpdate();
+                    
+                     System.out.println("Number of rows affected ::" + resultNum);
+
                         ////Insert new publisher and update all books published by one publisher to be published by new publisher. 
                         //Insert Into Publishers (publisherName, publisherAddress, publisherPhone, publisherEmail)
                         //Values ('userInputs');
