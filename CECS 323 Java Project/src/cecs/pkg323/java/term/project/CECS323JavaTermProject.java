@@ -243,6 +243,8 @@ public class CECS323JavaTermProject {
                                     System.out.printf(displayFormat, 
                                         dispNull(gName), dispNull(title), dispNull(pName), dispNull(year), dispNull(numPages));
                                 }
+                                System.out.println("Number of rows affected :: " + result);
+
                                 break;
                         }
                         break;
@@ -288,7 +290,7 @@ public class CECS323JavaTermProject {
                         statement.setString(1, title);
                         int result = statement.executeUpdate();
                   
-                        System.out.println("Number of rows affected " + result);
+                        System.out.println("Number of rows affected :: " + result);
                         break;
                 }
             }
