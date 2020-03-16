@@ -251,6 +251,23 @@ public class CECS323JavaTermProject {
                         ////Insert new book
                         //Insert Into Books (groupName, bookTitle, publisherName, yearPublished, numberPages)
                         //Values ('userInputs');
+                        System.out.println("Creating another statement...");
+                                String seventhSQL = "Insert Into Books (groupName, bookTitle, publisherName, yearPublished, numberPages)
+                                Values ('?');";
+                                System.out.println(seventhSQL);
+                                pStmt = conn.prepareStatement(seventhSQL);
+                                userInput = input.nextLine();
+                                pStmt.setString(1, userInput);
+                                rs = pStmt.executeQuery(seventhSQL);
+
+                                System.out.printf(displayFormat, "groupname", "bookTitle", "publisherName", "yearPublished", "numberPages");
+                                while (rs.next()) {
+                                    //Retrieve by column name
+                                    String gName = rs.getString("groupName");
+                                    String title = rs.getString("bookTitle");
+                                    String pName = rs.getString("publisherName"); 
+                                    String year = "" + rs.getInt("yearPublished");
+                                    String numPages = "" + rs.getInt("numberPages");
             
                         ////Insert new publisher and update all books published by one publisher to be published by new publisher. 
                         //Insert Into Publishers (publisherName, publisherAddress, publisherPhone, publisherEmail)
