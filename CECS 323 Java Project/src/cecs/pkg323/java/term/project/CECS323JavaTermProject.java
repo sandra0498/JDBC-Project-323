@@ -243,94 +243,87 @@ public class CECS323JavaTermProject {
                                     System.out.printf(displayFormat, 
                                         dispNull(gName), dispNull(title), dispNull(pName), dispNull(year), dispNull(numPages));
                                 }
-                                System.out.println("Number of rows affected :: " + result);
-
                                 break;
                         }
                         break;
                     
                     case 3:
+                        System.out.println("What data would you like to insert?\n(1)Books\n(2)Publishers");
+        
+                        int insert = in.nextInt();
+                        switch(insert){
+                            case 1:
+                                ////Insert new book
+                                //Insert Into Books (groupName, bookTitle, publisherName, yearPublished, numberPages)
+                                //Values ('userInputs');
+                                PreparedStatement insertBook = conn.prepareStatement("insert into books(groupName, "
+                                    + "bookTitle, publisherName, yearPublished, numberPages) Values(?,?,?,?,?)");
+                                System.out.println("Name of group to insert?");
+                                String group = in.nextLine();
+                    
+                                System.out.println("Which book title would you want to insert?");
+                                String bookTitle = in.nextLine();
+                    
+                                System.out.println("Name of publisher?");
+                                String pub = in.nextLine();
+                    
+                                System.out.println("Year published?");
+                                int year = in.nextInt();
+                    
+                                System.out.println("Number of pages?");
+                                int num = in.nextInt();
+                    
+                                insertBook.setString(1, group);
+                                insertBook.setString(2, bookTitle);
+                                insertBook.setString(3, pub);
+                                insertBook.setInt(4, year);
+                                insertBook.setInt(5, num);
+                    
+                                int resultNum = insertBook.executeUpdate();
+                    
+                                System.out.println("Number of rows affected :" + resultNum);
+                                break;
+                            
+                            case 2:
+                                ////Insert new publisher and update all books published by one publisher to be published by new publisher. 
+                                //Insert Into Publishers (publisherName, publisherAddress, publisherPhone, publisherEmail)
+                                //Values ('userInputs');
+                                PreparedStatement insertPublisher = conn.prepareStatement("insert into publishers(publisherName, "
+                                    + "publisherAddress, publisherPhone, publisherEmail) Values(?,?,?,?)");
+                                System.out.println("Name of publisher to insert?");
+                                String name = in.nextLine();
+                    
+                                System.out.println("Address of publisher?");
+                                String address = in.nextLine();
+                    
+                                System.out.println("Phone number of publisher?");
+                                int phone = in.nextInt();
+                    
+                                System.out.println("Publisher's email?");
+                                String email = in.nextLine();
+                    
+                                insertPublisher.setString(1, name);
+                                insertPublisher.setString(2, address);
+                                insertPublisher.setInt(3, phone);
+                                insertPublisher.setString(4, email);
+                    
+                                int resultNumber = insertPublisher.executeUpdate();
+                    
+                                System.out.println("Number of rows affected :" + resultNumber);
 
-                    ////Insert new book
-                    //Insert Into Books (groupName, bookTitle, publisherName, yearPublished, numberPages)
-                    //Values ('userInputs');
-                    PreparedStatement insertBook = conn.prepareStatement("insert into books(groupName, "
-                            + "bookTitle, publisherName, yearPublished, numberPages) Values(?,?,?,?,?)");
-                    System.out.println("Name of group to insert?");
-                    String group = in.nextLine();
-                    
-                    System.out.println("Which book title would you want to insert?");
-                    String bookTitle = in.nextLine();
-                    
-                    System.out.println("Name of publisher ?");
-                    String pub = in.nextLine();
-                    
-                    System.out.println("Year published?");
-                    int year = in.nextInt();
-                    
-                    System.out.println("Number of pages?");
-                    int num = in.nextInt();
-                    
-                    insertBook.setString(1, group);
-                    insertBook.setString(2, bookTitle);
-                    insertBook.setString(3, pub);
-                    insertBook.setInt(4, year);
-                    insertBook.setInt(5, num);
-                    
-                    int resultNum = insertBook.executeUpdate();
-                    
-                     System.out.println("Number of rows affected ::" + resultNum);
-                    ////Insert new book
-                    //Insert Into Books (groupName, bookTitle, publisherName, yearPublished, numberPages)
-                    //Values ('userInputs');
-                    PreparedStatement insertBook = conn.prepareStatement("insert into books(groupName, "
-                            + "bookTitle, publisherName, yearPublished, numberPages) Values(?,?,?,?,?)");
-                    System.out.println("Name of group to insert?");
-                    String group = in.nextLine();
-                    
-                    System.out.println("Which book title would you want to insert?");
-                    String bookTitle = in.nextLine();
-                    
-                    System.out.println("Name of publisher ?");
-                    String pub = in.nextLine();
-                    
-                    System.out.println("Year published?");
-                    int year = in.nextInt();
-                    
-                    System.out.println("Number of pages?");
-                    int num = in.nextInt();
-                    
-                    insertBook.setString(1, group);
-                    insertBook.setString(2, bookTitle);
-                    insertBook.setString(3, pub);
-                    insertBook.setInt(4, year);
-                    insertBook.setInt(5, num);
-                    
-                    int resultNum = insertBook.executeUpdate();
-                    
-                     System.out.println("Number of rows affected ::" + resultNum);
-
-                        ////Insert new publisher and update all books published by one publisher to be published by new publisher. 
-                        //Insert Into Publishers (publisherName, publisherAddress, publisherPhone, publisherEmail)
-                        //Values ('userInputs');
-
-                        //Update Books
-                        //Set publisherName = 'newPublisherName'
-                        //Where publisherName = 'userInput';
-
-                     PreparedStatement updateStatement = conn.prepareStatement("update Books set publisherName = ?"
-                             + "where publisherName = ?");
-                     System.out.println("What do you set publisher name to?");
-                     String newPubName = in.nextLine();
-                     System.out.println("Where publisher name is?");
-                     String pubName = in.nextLine();
-                     
-                     updateStatement.setString(1, newPubName);
-                     updateStatement.setString(2, pubName);
-                     
-                     int updateResult = updateStatement.executeUpdate();
-                     
-                     System.out.println("Number of rows affected :: " + updateResult);
+                                //Update Books
+                                //Set publisherName = 'newPublisherName'
+                                //Where publisherName = 'userInput';
+                                PreparedStatement updateBook = conn.prepareStatement("update books set publisherName = '"
+                                    + name +"' where publisherName = ?");
+                                System.out.println("What is the name of the publisher that is being updated?");
+                                String replace = in.nextLine();
+                                
+                                updateBook.setString(1, replace);
+                                int resultRow = updateBook.executeUpdate();
+                                System.out.println("Number of rows affected :" + resultRow);
+                                break;
+                        }
                         break;
                     
                     case 4:
@@ -347,7 +340,8 @@ public class CECS323JavaTermProject {
                         break;
                 }
             }
-              
+            
+          
             //STEP 6: Clean-up environment
             rs.close();
             stmt.close();
