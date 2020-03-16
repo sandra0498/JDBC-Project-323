@@ -317,6 +317,20 @@ public class CECS323JavaTermProject {
                         //Update Books
                         //Set publisherName = 'newPublisherName'
                         //Where publisherName = 'userInput';
+
+                     PreparedStatement updateStatement = conn.prepareStatement("update Books set publisherName = ?"
+                             + "where publisherName = ?");
+                     System.out.println("What do you set publisher name to?");
+                     String newPubName = in.nextLine();
+                     System.out.println("Where publisher name is?");
+                     String pubName = in.nextLine();
+                     
+                     updateStatement.setString(1, newPubName);
+                     updateStatement.setString(2, pubName);
+                     
+                     int updateResult = updateStatement.executeUpdate();
+                     
+                     System.out.println("Number of rows affected :: " + updateResult);
                         break;
                     
                     case 4:
