@@ -347,8 +347,7 @@ public class CECS323JavaTermProject {
                         break;
                 }
             }
-            
-          
+              
             //STEP 6: Clean-up environment
             rs.close();
             stmt.close();
