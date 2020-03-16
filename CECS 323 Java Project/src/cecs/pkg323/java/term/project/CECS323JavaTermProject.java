@@ -265,6 +265,13 @@ public class CECS323JavaTermProject {
                         ////Remove a book specified by the user
                         //Delete From Books
                         //Where bookTitle = 'userInput';
+                        System.out.println("What is the book title that you would like to delete?");
+                        PreparedStatement statement = conn.prepareStatement("delete from books where bookTitle = ?");
+                        String title = in.nextLine();
+                        statement.setString(1, title);
+                        int result = statement.executeUpdate();
+                  
+                        System.out.println("Number of rows affected " + result);
                         break;
                 }
             }
