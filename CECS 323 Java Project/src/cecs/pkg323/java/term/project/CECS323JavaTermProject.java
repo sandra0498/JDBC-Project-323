@@ -309,7 +309,7 @@ public class CECS323JavaTermProject {
                     
                                 int resultNumber = insertPublisher.executeUpdate();
                     
-                                System.out.println("Number of rows affected :" + resultNumber);
+                                System.out.println("Number of rows affected ::" + resultNumber);
 
                                 //Update Books
                                 //Set publisherName = 'newPublisherName'
@@ -321,7 +321,7 @@ public class CECS323JavaTermProject {
                                 
                                 updateBook.setString(1, replace);
                                 int resultRow = updateBook.executeUpdate();
-                                System.out.println("Number of rows affected :" + resultRow);
+                                System.out.println("Number of rows affected ::" + resultRow);
                                 break;
                         }
                         break;
