@@ -62,7 +62,7 @@ public class CECS323JavaTermProject {
         //Will exit out of Loop at the end when User says no to continuing 
         String answer = "yes";
         ResultSet rs = null;
-        while(answer.equalsIgnoreCase("yes")) {
+        do {
             //Menu options
             System.out.println("What would you like to do?");
             System.out.println("(1)Select Data\n(2)Select Specific Data\n(3)Insert Data\n(4)Remove Book");
@@ -469,7 +469,7 @@ public class CECS323JavaTermProject {
             //Asks the user if they want to continue using the program
             System.out.println("Would you like to continue using the program? Yes or No");
             answer = in.nextLine();
-        }
+        } while(!answer.equalsIgnoreCase("no"));
             //STEP 6: Clean-up environment
             rs.close();
             stmt.close();
