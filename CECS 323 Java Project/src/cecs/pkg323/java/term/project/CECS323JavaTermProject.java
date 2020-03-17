@@ -280,9 +280,10 @@ public class CECS323JavaTermProject {
                                 
                                 System.out.println("Name of group? Please choose a number, or choose a number outside the range to cancel.");
                                 
+                                
                                 ////List all group name
                                 //Select groupName From WritingGroups
-                                String temSQL = "SELECT groupName FROM WritingGroups";
+                                String temSQL = "SELECT groupName FROM WritingGroup";
                                 PreparedStatement selectState = conn.prepareStatement(temSQL);
                             
                                 rs = selectState.executeQuery();
@@ -307,6 +308,7 @@ public class CECS323JavaTermProject {
                                 
                                 String group = groups.get(groupName - 1);
                                 System.out.println("Which book title would you want to insert?");
+                                in.nextLine();
                                 String bookTitle = in.nextLine();
                                 System.out.println("Name of publisher? Please choose a number, or choose a number outside the range to cancel.");
                                 
@@ -360,13 +362,14 @@ public class CECS323JavaTermProject {
                                 //Values ('userInputs');
                                 stmt = conn.prepareStatement("insert into publishers(publisherName, "
                                     + "publisherAddress, publisherPhone, publisherEmail) Values(?,?,?,?)");
-                                
+                                in.nextLine();
                                 System.out.println("Name of publisher to insert?");
                                 String name = in.nextLine();
                                 System.out.println("Address of publisher?");
                                 String address = in.nextLine();
                                 System.out.println("Phone number of publisher?");
                                 int phone = in.nextInt();
+                                in.nextLine();
                                 System.out.println("Publisher's email?");
                                 String email = in.nextLine();
                                 
@@ -392,7 +395,6 @@ public class CECS323JavaTermProject {
                                 rs = selectStatement.executeQuery();
 
                                 ArrayList<String> current = new ArrayList<>();
-                                System.out.printf(displayFormat, "publisherName");
                                 while (rs.next()) {
                                     //Retrieve by column name
                                     String old = rs.getString("publisherName");
@@ -401,12 +403,12 @@ public class CECS323JavaTermProject {
                                 }
                                 
                                 //For loop will print and iterates through the names of publishers for the user to choose from
-                                for (int i = 0; i < current.size(); i++) {
+                                for (int i = 0; i < current.size() - 1; i++) {
                                     System.out.println((i + 1) + ". " + current.get(i));
                                 }
                                 
                                 int oldPublisher = in.nextInt();
-                                if (oldPublisher <= 0 || oldPublisher > current.size()) {
+                                if (oldPublisher <= 0 || oldPublisher > current.size() -1) {
                                     break;
                                 }                                
                                 
@@ -475,6 +477,7 @@ public class CECS323JavaTermProject {
             rs.close();
             stmt.close();
             conn.close();
+            in.close();
         } catch(SQLSyntaxErrorException see){
            Exception sse = new SQLSyntaxErrorException("Wrong syntax");
            sse.getMessage();
