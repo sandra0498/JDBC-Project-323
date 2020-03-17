@@ -60,7 +60,7 @@ public class CECS323JavaTermProject {
         //While Loop
         //Will loop the Main Menu of what the User can do with the Program
         //Will exit out of Loop at the end when User says no to continuing 
-        String answer = "yes";
+        String answer;
         ResultSet rs = null;
         do {
             //Menu options
@@ -468,6 +468,7 @@ public class CECS323JavaTermProject {
             
             //Asks the user if they want to continue using the program
             System.out.println("Would you like to continue using the program? Yes or No");
+            in.nextLine();
             answer = in.nextLine();
         } while(!answer.equalsIgnoreCase("no"));
             //STEP 6: Clean-up environment
