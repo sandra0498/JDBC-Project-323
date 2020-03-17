@@ -56,19 +56,28 @@ public class CECS323JavaTermProject {
         System.out.println("Connecting to database...");
         conn = DriverManager.getConnection(DB_URL);
         
+        //While Loop
+        //Will loop the Main Menu of what the User can do with the Program
+        //Will exit out of Loop at the end when User says no to continuing 
         String answer = "yes";
         ResultSet rs = null;
         while(answer.equalsIgnoreCase("yes")) {
+            //Menu options
             System.out.println("What would you like to do?");
-            System.out.println("(1)Select Data\n(2)Select Specific Data\n(3)Insert Data\n(4)Remove Data");
+            System.out.println("(1)Select Data\n(2)Select Specific Data\n(3)Insert Data\n(4)Remove Book");
 
+            //Gets the user's input on what option they would like to use
             int choice = in.nextInt();
             switch(choice){
+                //Case 1: Select Data
+                //Will show all data from any of the tables that the user chooses
                 case 1:
                     System.out.println("Which data would you like to select?\n(1)Writing Groups\n(2)Publishers\n(3)Books");
 
+                    //User chooses a table to select from
                     int select = in.nextInt();
                     switch(select){
+                        //Case 1: User selects data from Writing Groups Table
                         case 1:
                             //STEP 4: Execute a query
                             //List all writing groups
@@ -97,6 +106,7 @@ public class CECS323JavaTermProject {
                             }
                             break;
 
+                        //Case 2: User selects data from Publishers Table
                         case 2:
                             ////List all publishers
                             //Select publisherName, publisherAddress, publisherPhone, publisherEmail
@@ -121,6 +131,7 @@ public class CECS323JavaTermProject {
                             }
                             break;
 
+                        //Case 3: User selects data from Books Table
                         case 3:
                             ////List all book titles
                             //Select groupName, bookTitle, publisherName, yearPublished, numberPages
@@ -148,12 +159,16 @@ public class CECS323JavaTermProject {
                     }
                     break;
 
+                //Case 1: Select Specific Data
+                //Will show all data from any of the tables that the user chooses
+                //This is for more specific searches if a user is looking for specific books, publishers, or writing groups
                 case 2:
                     System.out.println("Which specific data would you like to select from?\n(1)Writing Groups\n(2)Publishers\n(3)Books");
 
                     int table = in.nextInt();
                     Scanner input = new Scanner(System.in);
                     switch(table){
+                        //Case 1: User selects specific data from Writing Groups Table
                         case 1:
                             //List all data for a group specified by the user
                             //Select groupName, headWriter, yearFormed, subject 
@@ -183,6 +198,7 @@ public class CECS323JavaTermProject {
                             }
                             break;
 
+                        //Case 2: User selects specific data from Publishers Table
                         case 2:
                             ////List all data for a publisher specified by the user
                             //Select publisherName, publisherAddress, publisherPhone, publisherEmail
@@ -212,6 +228,7 @@ public class CECS323JavaTermProject {
                             }
                             break;
 
+                        //Case 3: User selects specific data from Books Table
                         case 3:
                             ////List all data for a book specified by the user
                             //Select groupName, bookTitle, publisherName, yearPublished, numberPages
@@ -243,62 +260,84 @@ public class CECS323JavaTermProject {
                     }
                     break;
 
+                //Case 3: Insert Data
+                //Will allow the user to insert data for a book or a publisher
+                //If the user inserts data for a publisher, it will also ask the user for the name of the 
+                    //publisher that they would like to update with the new one they are inserting
                 case 3:
-                    ////Insert new book
-                    //Insert Into Books (groupName, bookTitle, publisherName, yearPublished, numberPages)
-                    //Values ('userInputs');
-                    PreparedStatement insertBook = conn.prepareStatement("insert into books(groupName, "
-                            + "bookTitle, publisherName, yearPublished, numberPages) Values(?,?,?,?,?)");
-                    System.out.println("Name of group to insert?");
-                    String group = in.nextLine();
-                    
-                    System.out.println("Which book title would you want to insert?");
-                    String bookTitle = in.nextLine();
-                    
-                    System.out.println("Name of publisher ?");
-                    String pub = in.nextLine();
-                    
-                    System.out.println("Year published?");
-                    int year = in.nextInt();
-                    
-                    System.out.println("Number of pages?");
-                    int num = in.nextInt();
-                    
-                    insertBook.setString(1, group);
-                    insertBook.setString(2, bookTitle);
-                    insertBook.setString(3, pub);
-                    insertBook.setInt(4, year);
-                    insertBook.setInt(5, num);
-                    
-                    int resultNum = insertBook.executeUpdate();
-                    
-                     System.out.println("Number of rows affected ::" + resultNum);
-                     
-                    ////Insert new publisher and update all books published by one publisher to be published by new publisher. 
-                    //Insert Into Publishers (publisherName, publisherAddress, publisherPhone, publisherEmail)
-                    //Values ('userInputs');
-                     
+                    System.out.println("What data would you like to insert?\n(1)Books\n(2)Publishers");
 
-                    //Update Books
-                    //Set publisherName = 'newPublisherName'
-                    //Where publisherName = 'userInput';
-                     PreparedStatement updateStatement = conn.prepareStatement("update Books set publisherName = ?"
-                             + "where publisherName = ?");
-                     System.out.println("What do you set publisher name to?");
-                     String newPubName = in.nextLine();
-                     System.out.println("Where publisher name is?");
-                     String pubName = in.nextLine();
-                     
-                     updateStatement.setString(1, newPubName);
-                     updateStatement.setString(2, pubName);
-                     
-                     int updateResult = updateStatement.executeUpdate();
-                     
-                     System.out.println("Number of rows affected :: " + updateResult);
-                     
-                     
+                        int insert = in.nextInt();
+                        switch(insert){
+                            case 1:
+                                ////Insert new book
+                                //Insert Into Books (groupName, bookTitle, publisherName, yearPublished, numberPages)
+                                //Values ('userInputs');
+                                PreparedStatement insertBook = conn.prepareStatement("insert into books(groupName, "
+                                    + "bookTitle, publisherName, yearPublished, numberPages) Values(?,?,?,?,?)");
+                                
+                                System.out.println("Name of group to insert?");
+                                String group = in.nextLine();
+                                System.out.println("Which book title would you want to insert?");
+                                String bookTitle = in.nextLine();
+                                 System.out.println("Name of publisher?");
+                                String pub = in.nextLine();
+                                System.out.println("Year published?");
+                                int year = in.nextInt();
+                                System.out.println("Number of pages?");
+                                int num = in.nextInt();
+                                
+                                insertBook.setString(1, group);
+                                insertBook.setString(2, bookTitle);
+                                insertBook.setString(3, pub);
+                                insertBook.setInt(4, year);
+                                insertBook.setInt(5, num);
+                                
+                                int resultNum = insertBook.executeUpdate();
+                                System.out.println("Number of rows affected :" + resultNum);
+                                break;
+
+                            case 2:
+                                ////Insert new publisher and update all books published by one publisher to be published by new publisher. 
+                                //Insert Into Publishers (publisherName, publisherAddress, publisherPhone, publisherEmail)
+                                //Values ('userInputs');
+                                PreparedStatement insertPublisher = conn.prepareStatement("insert into publishers(publisherName, "
+                                    + "publisherAddress, publisherPhone, publisherEmail) Values(?,?,?,?)");
+                                
+                                System.out.println("Name of publisher to insert?");
+                                String name = in.nextLine();
+                                System.out.println("Address of publisher?");
+                                String address = in.nextLine();
+                                System.out.println("Phone number of publisher?");
+                                int phone = in.nextInt();
+                                System.out.println("Publisher's email?");
+                                String email = in.nextLine();
+                                
+                                insertPublisher.setString(1, name);
+                                insertPublisher.setString(2, address);
+                                insertPublisher.setInt(3, phone);
+                                insertPublisher.setString(4, email);
+                                int resultNumber = insertPublisher.executeUpdate();
+                                
+                                System.out.println("Number of rows affected :" + resultNumber);
+                                
+                                //Update Books
+                                //Set publisherName = 'newPublisherName'
+                                //Where publisherName = 'userInput';
+                                PreparedStatement updateBook = conn.prepareStatement("update books set publisherName = '"
+                                    + name +"' where publisherName = ?");
+                                System.out.println("What is the name of the publisher that is being updated?");
+                                String replace = in.nextLine();
+
+                                updateBook.setString(1, replace);
+                                int resultRow = updateBook.executeUpdate();
+                                System.out.println("Number of rows affected :" + resultRow);
+                                break;
+                        }                     
                     break;
 
+                //Case 4: Remove Book
+                //Will allow the user to specify which book they would like to remove from the table
                 case 4:
                     System.out.println("What is the book title that you would like to delete?");
                     PreparedStatement statement = conn.prepareStatement("delete from books where bookTitle = ?");
@@ -312,8 +351,11 @@ public class CECS323JavaTermProject {
                     //Where bookTitle = 'userInput';
                     break;
             }
+            
+            //Asks the user if they want to continue using the program
+            System.out.println("Would you like to continue using the program? Yes or No");
+            answer = in.nextLine();
         }
-
             //STEP 6: Clean-up environment
             rs.close();
             stmt.close();
@@ -352,4 +394,3 @@ public class CECS323JavaTermProject {
     }//end main
 
 }//end FirstExample}
-
