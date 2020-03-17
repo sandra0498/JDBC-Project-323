@@ -394,8 +394,6 @@ public class CECS323JavaTermProject {
                         }                     
                     break;
 
-                //Case 4: Remove Book
-                //Will allow the user to specify which book they would like to remove from the table
                 case 4:
                     System.out.println("Which book would you like to delete from the table? To cancel, please choose a number outside the range of the menu.");
                     PreparedStatement statement = conn.prepareStatement("delete from books where bookTitle = ? and groupName = ?");
@@ -403,46 +401,47 @@ public class CECS323JavaTermProject {
                     String tempSQL = "SELECT groupName, bookTitle FROM Books";
                     PreparedStatement selectStat = conn.prepareStatement(tempSQL);
                             
-                    ResultSet books = selectStat.executeQuery();
+                   rs = selectStat.executeQuery();
 
                     ArrayList<String> titleList = new ArrayList<>();
                     ArrayList<String> groupList = new ArrayList<>();
-                    System.out.printf(displayFormat, "groupName", "bookTitle");
-                    while (books.next()) {
+                    while (rs.next()) {
                         //Retrieve by column name
-                        String book = books.getString("bookTitle");
-                        String group = books.getString("groupName");
+                        String book = rs.getString("bookTitle");
+                        String groupres = rs.getString("groupName");
                                     
                         titleList.add(book);
-                        groupList.add(group);
+                        groupList.add(groupres);
                     }
                                 
                     //For loop will print and iterates through the names of publishers for the user to choose from
                     for (int i = 0; i < titleList.size(); i++) {
-                        System.out.println((i + 1) + ". " + titleList.get(i) + " " + groupList.get(i));
+                        System.out.println((i + 1) + "." + titleList.get(i) + "\t\t" + groupList.get(i));
                     }
                                 
                     int remove = in.nextInt();
-                    if (remove <= 0 || remove > titleList.size()) {
-                        break;
+                    if (remove > 0 || remove < titleList.size()) {
+                        String groupres = groupList.get(remove - 1);
+                        String title = titleList.get(remove - 1);
+                        statement.setString(1, title);
+                        statement.setString(2, groupres);
+                        int result = statement.executeUpdate();
+                        System.out.println("Number of rows affected ::" + result);
                     }
-                    
-                    String group = groupList.get(remove - 1);
-                    String title = titleList.get(remove - 1);
-                    statement.setString(1, title);
-                    statement.setString(2, group);
-                    int result = statement.executeUpdate();
-              
-                    System.out.println("Number of rows affected ::" + result);
+
+ 
                     ////Remove a book specified by the user
                     //Delete From Books
                     //Where bookTitle = 'userInput';
+                    
                     break;
             }
             
             //Asks the user if they want to continue using the program
             System.out.println("Would you like to continue using the program? Yes or No");
             answer = in.nextLine();
+        }
+
         }
             //STEP 6: Clean-up environment
             rs.close();
