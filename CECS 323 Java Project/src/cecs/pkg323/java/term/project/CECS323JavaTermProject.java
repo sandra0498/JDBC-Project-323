@@ -2,6 +2,7 @@ package cecs.pkg323.java.term.project;
 
 import java.sql.*;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 /**
  * @author Michael, Sandra, Nicki
@@ -262,6 +263,8 @@ public class CECS323JavaTermProject {
 
                 //Case 3: Insert Data
                 //Will allow the user to insert data for a book or a publisher
+                //If the user inserts data for a book, it will show a list of all the publishers available 
+                    //for the user to choose from or they can abort the inserting book process
                 //If the user inserts data for a publisher, it will also ask the user for the name of the 
                     //publisher that they would like to update with the new one they are inserting
                 case 3:
@@ -269,6 +272,7 @@ public class CECS323JavaTermProject {
 
                         int insert = in.nextInt();
                         switch(insert){
+                            //Case 1: Insert new book
                             case 1:
                                 ////Insert new book
                                 //Insert Into Books (groupName, bookTitle, publisherName, yearPublished, numberPages)
@@ -280,8 +284,35 @@ public class CECS323JavaTermProject {
                                 String group = in.nextLine();
                                 System.out.println("Which book title would you want to insert?");
                                 String bookTitle = in.nextLine();
-                                 System.out.println("Name of publisher?");
-                                String pub = in.nextLine();
+                                System.out.println("Name of publisher? Please choose a number, or choose a number outside the range to cancel.");
+                                
+                                ////List all publishers name
+                                //Select publisherName From Publishers
+                                String thirdSQL = "SELECT publisherName FROM Publishers";
+                                PreparedStatement selectStat = conn.prepareStatement(thirdSQL);
+                            
+                                ResultSet resultPublishers = selectStat.executeQuery();
+
+                                ArrayList<String> names = new ArrayList<>();
+                                System.out.printf(displayFormat, "publisherName");
+                                while (resultPublishers.next()) {
+                                    //Retrieve by column name
+                                    String name = resultPublishers.getString("publisherName");
+                                    
+                                    names.add(name);
+                                }
+                                
+                                //For loop will print and iterates through the names of publishers for the user to choose from
+                                for (int i = 0; i < names.size(); i++) {
+                                    System.out.println((i + 1) + ". " + names.get(i));
+                                }
+                                
+                                int nameChoice = in.nextInt();
+                                if (nameChoice <= 0 || nameChoice > names.size()) {
+                                    break;
+                                }
+                                
+                                String pub = names.get(nameChoice - 1);
                                 System.out.println("Year published?");
                                 int year = in.nextInt();
                                 System.out.println("Number of pages?");
@@ -297,6 +328,7 @@ public class CECS323JavaTermProject {
                                 System.out.println("Number of rows affected :" + resultNum);
                                 break;
 
+                            //Insert new Publisher and update 
                             case 2:
                                 ////Insert new publisher and update all books published by one publisher to be published by new publisher. 
                                 //Insert Into Publishers (publisherName, publisherAddress, publisherPhone, publisherEmail)
@@ -326,8 +358,34 @@ public class CECS323JavaTermProject {
                                 //Where publisherName = 'userInput';
                                 PreparedStatement updateBook = conn.prepareStatement("update books set publisherName = '"
                                     + name +"' where publisherName = ?");
-                                System.out.println("What is the name of the publisher that is being updated?");
-                                String replace = in.nextLine();
+                                
+                                System.out.println("Which publisher would you like to replace? To cancel the process, choose a number outside the range.");
+                                
+                                String tempSQL = "SELECT publisherName FROM Publishers";
+                                selectStat = conn.prepareStatement(tempSQL);
+                            
+                                ResultSet currentPublishers = selectStat.executeQuery();
+
+                                ArrayList<String> current = new ArrayList<>();
+                                System.out.printf(displayFormat, "publisherName");
+                                while (currentPublishers.next()) {
+                                    //Retrieve by column name
+                                    String old = currentPublishers.getString("publisherName");
+                                    
+                                    current.add(old);
+                                }
+                                
+                                //For loop will print and iterates through the names of publishers for the user to choose from
+                                for (int i = 0; i < current.size(); i++) {
+                                    System.out.println((i + 1) + ". " + current.get(i));
+                                }
+                                
+                                int oldPublisher = in.nextInt();
+                                if (oldPublisher <= 0 || oldPublisher > current.size()) {
+                                    break;
+                                }                                
+                                
+                                String replace = current.get(oldPublisher - 1);
 
                                 updateBook.setString(1, replace);
                                 int resultRow = updateBook.executeUpdate();
@@ -339,10 +397,40 @@ public class CECS323JavaTermProject {
                 //Case 4: Remove Book
                 //Will allow the user to specify which book they would like to remove from the table
                 case 4:
-                    System.out.println("What is the book title that you would like to delete?");
-                    PreparedStatement statement = conn.prepareStatement("delete from books where bookTitle = ?");
-                    String title = in.nextLine();
+                    System.out.println("Which book would you like to delete from the table? To cancel, please choose a number outside the range of the menu.");
+                    PreparedStatement statement = conn.prepareStatement("delete from books where bookTitle = ? and groupName = ?");
+                    
+                    String tempSQL = "SELECT groupName, bookTitle FROM Books";
+                    PreparedStatement selectStat = conn.prepareStatement(tempSQL);
+                            
+                    ResultSet books = selectStat.executeQuery();
+
+                    ArrayList<String> titleList = new ArrayList<>();
+                    ArrayList<String> groupList = new ArrayList<>();
+                    System.out.printf(displayFormat, "groupName", "bookTitle");
+                    while (books.next()) {
+                        //Retrieve by column name
+                        String book = books.getString("bookTitle");
+                        String group = books.getString("groupName");
+                                    
+                        titleList.add(book);
+                        groupList.add(group);
+                    }
+                                
+                    //For loop will print and iterates through the names of publishers for the user to choose from
+                    for (int i = 0; i < titleList.size(); i++) {
+                        System.out.println((i + 1) + ". " + titleList.get(i) + " " + groupList.get(i));
+                    }
+                                
+                    int remove = in.nextInt();
+                    if (remove <= 0 || remove > titleList.size()) {
+                        break;
+                    }
+                    
+                    String group = groupList.get(remove - 1);
+                    String title = titleList.get(remove - 1);
                     statement.setString(1, title);
+                    statement.setString(2, group);
                     int result = statement.executeUpdate();
               
                     System.out.println("Number of rows affected ::" + result);
