@@ -280,8 +280,35 @@ public class CECS323JavaTermProject {
                                 PreparedStatement insertBook = conn.prepareStatement("insert into books(groupName, "
                                     + "bookTitle, publisherName, yearPublished, numberPages) Values(?,?,?,?,?)");
                                 
-                                System.out.println("Name of group to insert?");
-                                String group = in.nextLine();
+                                System.out.println("Name of group? Please choose a number, or choose a number outside the range to cancel.");
+                                
+                                ////List all group name
+                                //Select groupName From WritingGroups
+                                String temSQL = "SELECT groupName FROM WritingGroups";
+                                PreparedStatement selectSt = conn.prepareStatement(temSQL);
+                            
+                                ResultSet resultGroup = selectSt.executeQuery();
+
+                                ArrayList<String> groups = new ArrayList<>();
+                                System.out.printf(displayFormat, "groupName");
+                                while (resultGroup.next()) {
+                                    //Retrieve by column name
+                                    String name = resultGroup.getString("groupName");
+                                    
+                                    groups.add(name);
+                                }
+                                
+                                //For loop will print and iterates through the names of publishers for the user to choose from
+                                for (int i = 0; i < groups.size(); i++) {
+                                    System.out.println((i + 1) + ". " + groups.get(i));
+                                }
+                                
+                                int groupName = in.nextInt();
+                                if (groupName <= 0 || groupName > groups.size()) {
+                                    break;
+                                }
+                                
+                                String group = groups.get(groupName - 1);
                                 System.out.println("Which book title would you want to insert?");
                                 String bookTitle = in.nextLine();
                                 System.out.println("Name of publisher? Please choose a number, or choose a number outside the range to cancel.");
