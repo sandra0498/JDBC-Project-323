@@ -296,13 +296,14 @@ public class CECS323JavaTermProject {
                                     groups.add(name);
                                 }
                                 
-                                //For loop will print and iterates through the names of publishers for the user to choose from
+                                //For loop will print and iterates through the names of groups for the user to choose from
                                 for (int i = 0; i < groups.size(); i++) {
                                     System.out.println((i + 1) + ". " + groups.get(i));
                                 }
                                 
                                 int groupName = in.nextInt();
                                 if (groupName <= 0 || groupName > groups.size()) {
+                                    System.out.println("Cancelling inserting book data...");
                                     break;
                                 }
                                 
@@ -334,6 +335,7 @@ public class CECS323JavaTermProject {
                                 
                                 int nameChoice = in.nextInt();
                                 if (nameChoice <= 0 || nameChoice > names.size()) {
+                                    System.out.println("Cancelling inserting book data");
                                     break;
                                 }
                                 
@@ -409,6 +411,7 @@ public class CECS323JavaTermProject {
                                 
                                 int oldPublisher = in.nextInt();
                                 if (oldPublisher <= 0 || oldPublisher > current.size() -1) {
+                                    System.out.println("Cancelling update on publishers...");
                                     break;
                                 }                                
                                 
@@ -451,6 +454,7 @@ public class CECS323JavaTermProject {
                                 
                     int remove = in.nextInt();
                     if (remove <= 0 || remove > titleList.size()) {
+                        System.out.println("Cancelling removal of book...");
                         break;
                     }
                     
