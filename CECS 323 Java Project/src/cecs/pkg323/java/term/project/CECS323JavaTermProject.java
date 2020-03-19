@@ -12,12 +12,7 @@ public class CECS323JavaTermProject {
     static String USER;
     static String PASS;
     static String DBNAME;
-    //This is the specification for the printout that I'm doing:
-    //each % denotes the start of a new field.
-    //The - denotes left justification.
-    //The number indicates how wide to make the field.
-    //The "s" denotes that it's a string.  All of our output in this test are 
-    //strings, but that won't always be the case.
+
     static final String displayFormat="%-30s%-30s%-30s%-30s\n";
 // JDBC driver name and database URL
     static final String JDBC_DRIVER = "org.apache.derby.jdbc.ClientDriver";
@@ -37,8 +32,6 @@ public class CECS323JavaTermProject {
     }
     public static void main(String[] args) {
     //Prompt the user for the database name, and the credentials.
-    //If your database has no credentials, you can update this code to 
-    //remove that from the connection string.
     Scanner in = new Scanner(System.in);
     System.out.print("Name of the database (not the user account): ");
     DBNAME = in.nextLine();
