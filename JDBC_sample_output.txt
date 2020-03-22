@@ -1,0 +1,190 @@
+Deleting: C:\Users\Sandra C\Documents\NetBeansProjects\CECS 323 Java Project\build\built-jar.properties
+deps-jar:
+Updating property file: C:\Users\Sandra C\Documents\NetBeansProjects\CECS 323 Java Project\build\built-jar.properties
+Compiling 1 source file to C:\Users\Sandra C\Documents\NetBeansProjects\CECS 323 Java Project\build\classes
+compile:
+run:
+Name of the database (not the user account): JDBC_Project
+Connecting to database...
+What would you like to do?
+(1)Select Data
+(2)Select Specific Data
+(3)Insert Data
+(4)Remove Book
+1
+Which data would you like to select?
+(1)Writing Groups
+(2)Publishers
+(3)Books
+1
+Creating statement...
+SELECT groupname, headWriter, yearFormed,subject FROM WritingGroup
+groupname                     headwriter                    yearformed                    subject                       
+Storytellers                  Harper Lee                    1950                          Morality                      
+Novice Narrators              J.D Salinger                  1940                          Alienation                    
+Goosebumps Writing Group      R.L Stine                     1990                          Horror                        
+Would you like to continue using the program? Yes or No
+yes
+What would you like to do?
+(1)Select Data
+(2)Select Specific Data
+(3)Insert Data
+(4)Remove Book
+1
+Which data would you like to select?
+(1)Writing Groups
+(2)Publishers
+(3)Books
+2
+Creating another statement...
+publisherName                 publisherAddress              publisherPhone                publisherEmail                
+J.B Lippincott & Co.          1234 Orange ave.              5667890                       JBWriting@yahoo.com           
+Little, Brown and Company     4343 Main Street              5553978                       LittleGroup@yahoo.com         
+Scholastic                    568 Crescent Street           5653145                       ScholasticBusiness@gmail.com  
+Would you like to continue using the program? Yes or No
+yes
+What would you like to do?
+(1)Select Data
+(2)Select Specific Data
+(3)Insert Data
+(4)Remove Book
+1
+Which data would you like to select?
+(1)Writing Groups
+(2)Publishers
+(3)Books
+3
+Creating another statement...
+SELECT groupName, bookTitle, publisherName, yearPublished, numberPages FROM Books
+groupName                     bookTitle                     publisherName                 yearPublished                 
+Storytellers                  To Kill a MockingBird         J.B Lippincott & Co.          1960                          
+Goosebumps Writing Group      Welcome to Dead House         Scholastic                    1992                          
+Goosebumps Writing Group      Return of the Mummy           Scholastic                    1994                          
+Novice Narrators              The Catcher in the Rye        Little, Brown and Company     1951                          
+Would you like to continue using the program? Yes or No
+yes
+What would you like to do?
+(1)Select Data
+(2)Select Specific Data
+(3)Insert Data
+(4)Remove Book
+2
+Which specific data would you like to select from?
+(1)Writing Groups
+(2)Publishers
+(3)Books
+1
+Creating another statement...
+SELECT groupName, headWriter, yearFormed, subject FROM WritingGroup
+WHERE groupName = ?
+Insert:Storytellers
+groupname                     headwriter                    yearformed                    subject                       
+Storytellers                  Harper Lee                    1950                          Morality                      
+Would you like to continue using the program? Yes or No
+yes
+What would you like to do?
+(1)Select Data
+(2)Select Specific Data
+(3)Insert Data
+(4)Remove Book
+2
+Which specific data would you like to select from?
+(1)Writing Groups
+(2)Publishers
+(3)Books
+2
+Creating another statement...
+SELECT publisherName, publisherAddress, publisherPhone, publisherEmail FROM Publishers
+WHERE publisherName = ?
+Insert:hi
+publisherName                 publisherAddress              publisherPhone                publisherEmail                
+Would you like to continue using the program? Yes or No
+yes
+What would you like to do?
+(1)Select Data
+(2)Select Specific Data
+(3)Insert Data
+(4)Remove Book
+3
+What data would you like to insert?
+(1)Books
+(2)Publishers
+1
+Name of group? Please choose a number, or choose a number outside the range to cancel.
+1. Goosebumps Writing Group
+2. Novice Narrators
+3. Storytellers
+3
+Which book title would you want to insert?
+harry potter
+Name of publisher? Please choose a number, or choose a number outside the range to cancel.
+1. J.B Lippincott & Co.
+2. Little, Brown and Company
+3. Scholastic
+3
+Year published?
+2000
+Number of pages?
+600
+Number of rows affected :1
+Would you like to continue using the program? Yes or No
+yes
+What would you like to do?
+(1)Select Data
+(2)Select Specific Data
+(3)Insert Data
+(4)Remove Book
+1
+Which data would you like to select?
+(1)Writing Groups
+(2)Publishers
+(3)Books
+3
+Creating another statement...
+SELECT groupName, bookTitle, publisherName, yearPublished, numberPages FROM Books
+groupName                     bookTitle                     publisherName                 yearPublished                 
+Storytellers                  To Kill a MockingBird         J.B Lippincott & Co.          1960                          
+Goosebumps Writing Group      Welcome to Dead House         Scholastic                    1992                          
+Goosebumps Writing Group      Return of the Mummy           Scholastic                    1994                          
+Novice Narrators              The Catcher in the Rye        Little, Brown and Company     1951                          
+Storytellers                  harry potter                  Scholastic                    2000                          
+Would you like to continue using the program? Yes or No
+yes
+What would you like to do?
+(1)Select Data
+(2)Select Specific Data
+(3)Insert Data
+(4)Remove Book
+4
+Which book would you like to delete from the table? To cancel, please choose a number outside the range of the menu.
+1. Return of the Mummy		Goosebumps Writing Group
+2. Welcome to Dead House		Goosebumps Writing Group
+3. The Catcher in the Rye		Novice Narrators
+4. To Kill a MockingBird		Storytellers
+5. harry potter		Storytellers
+5
+Number of rows affected ::1
+Would you like to continue using the program? Yes or No
+yes
+What would you like to do?
+(1)Select Data
+(2)Select Specific Data
+(3)Insert Data
+(4)Remove Book
+1
+Which data would you like to select?
+(1)Writing Groups
+(2)Publishers
+(3)Books
+3
+Creating another statement...
+SELECT groupName, bookTitle, publisherName, yearPublished, numberPages FROM Books
+groupName                     bookTitle                     publisherName                 yearPublished                 
+Storytellers                  To Kill a MockingBird         J.B Lippincott & Co.          1960                          
+Goosebumps Writing Group      Welcome to Dead House         Scholastic                    1992                          
+Goosebumps Writing Group      Return of the Mummy           Scholastic                    1994                          
+Novice Narrators              The Catcher in the Rye        Little, Brown and Company     1951                          
+Would you like to continue using the program? Yes or No
+no
+Goodbye!
+BUILD SUCCESSFUL (total time: 2 minutes 51 seconds)
