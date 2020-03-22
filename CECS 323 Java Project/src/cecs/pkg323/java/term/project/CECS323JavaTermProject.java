@@ -475,17 +475,20 @@ public class CECS323JavaTermProject {
             stmt.close();
             conn.close();
             in.close();
-        } catch(SQLSyntaxErrorException see){
+        } 
+        catch(SQLSyntaxErrorException see){
            Exception sse = new SQLSyntaxErrorException("Wrong syntax");
            sse.getMessage();
         }
         catch (SQLException se) {
             //Handle errors for JDBC
-            System.out.println("Could not retrieve database metadata " + se.getMessage());
+            System.out.println("Cause: "+ se.getMessage());
+
         } 
         catch (Exception e) {
             //Handle errors for Class.forName
-            e.printStackTrace();
+            System.out.println("Cause: "+ e.getMessage());
+
         } finally {
             //finally block used to close resources
             // this block will be entered after all the inserts/deletes 
@@ -507,5 +510,4 @@ public class CECS323JavaTermProject {
         }//end try
         System.out.println("Goodbye!");
     }//end main
-
 }//end FirstExample}
